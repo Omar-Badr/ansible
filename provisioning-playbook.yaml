@@ -102,6 +102,9 @@
      name: nginx_cont
      image: nginx
      state: started
+     network_mode: bridge
+     published_ports:
+      - 8080:80
      networks:
       - name: Network-1
         ipv4_address: 172.1.1.101

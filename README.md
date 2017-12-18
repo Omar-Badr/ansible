@@ -17,6 +17,7 @@ mysql name= mysql_cont
 mysql IP= 172.1.1.100
 nginx name= nginx_cont
 nginx IP= 172.1.1.101
+nginx port mapping= 8080:80
 node rest api 1 name= my_node_rest_api_con_1
 node rest api 1 IP= 172.1.1.102
 node rest api 2 name= my_node_rest_api_con_2
