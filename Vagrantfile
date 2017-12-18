@@ -12,7 +12,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "ubuntu/trusty64"
   config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
-
+  config.ssh.insert_key = false
+  #config.ssh.insert_key = false
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
   # config.vm.box_url = "http://domain.com/path/to/above.box"
@@ -45,13 +46,21 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
-  # config.vm.provider :virtualbox do |vb|
+   config.vm.provider :virtualbox do |vb|
   #   # Don't boot with headless mode
   #   vb.gui = true
   #
   #   # Use VBoxManage to customize the VM. For example to change memory:
-  #   vb.customize ["modifyvm", :id, "--memory", "1024"]
-  # end
+      vb.name = "hostVM"
+      vb.customize ["modifyvm", :id, "--memory", "1024"]
+   end
+
+  config.vm.hostname = "hostVM"
+  config.vm.network :private_network, ip: "192.168.33.27"
+
+  config.vm.define :hostVM do |hostVM|
+  end
+
   #
   # View the documentation for the provider you're using for more
   # information on available options.
@@ -116,7 +125,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # chef-validator, unless you changed the configuration.
   #
   #   chef.validation_client_name = "ORGNAME-validator"
-    config.vm.provision :ansible do |ansible|
+  config.vm.provision "ansible" do |ansible|    
     ansible.playbook = "./test.yaml"
+    ansible.inventory_path = "provisioning/inventory"
+    ansible.sudo = true
   end
 end

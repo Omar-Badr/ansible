@@ -5,11 +5,20 @@
   - name: update apt-get
     apt:
      update_cache: yes
-  - name: Install the package "apt-transport-https, ca-certificates, curl, software-properties-common"
+  - name: Install the package "apt-transport-https"
     apt:
      name: apt-transport-https 
-     name: ca-certificates 
-     name: curl 
+     state: present
+  - name: Install the package "ca-certificates"
+    apt:
+     name: ca-certificates
+     state: present
+  - name: Install the package "curl"
+    apt:
+     name: curl
+     state: present
+  - name: Install the package "software-properties-common"
+    apt:
      name: software-properties-common
      state: present
   - name: Add Docker’s official GPG key
@@ -19,14 +28,17 @@
   - name: update apt-get
     apt:
      update_cache: yes
-  - name: apt-get install "docker-ce, python-pip"
+  - name: apt-get install "docker-ce"
     apt:
      name: docker-ce
-     name: python-pip
      state: present 
-  - name: Install docker==2.0.1
+  - name: apt-get install "python-pip"
+    apt:
+     name: python-pip
+     state: present
+  - name: Install docker
     shell: pip install docker docker-py
-  - name: Install the version of docker-compose,
+  - name: Install docker-compose,
     shell: pip install docker-compose
   - name: Create my_haproxy directory
     file:
@@ -72,34 +84,48 @@
     docker_image:
      path: ~/my_haproxy/
      name: my_haproxy
+  - name: networking
+    docker_network:
+     name: Network-1
+     ipam_options: 
+      subnet: 172.1.1.0/24
   - name: run mysql docker image
     docker_container:
      name: mysql_cont
      image: mysql
      state: started
+     networks:
+      - name: Network-1
+        ipv4_address: 172.1.1.100
   - name: run nginx docker image
     docker_container:
      name: nginx_cont
      image: nginx
      state: started
+     networks:
+      - name: Network-1
+        ipv4_address: 172.1.1.101
   - name: run my_node_rest_api_1 container
     docker_container:
      name: my_node_rest_api_con_1
      image: my_node_rest_api
      state: started
+     networks:
+      - name: Network-1
+        ipv4_address: 172.1.1.102
   - name: run my_node_rest_api_2 container
     docker_container:
      name: my_node_rest_api_con_2
      image: my_node_rest_api
      state: started
+     networks:
+      - name: Network-1
+        ipv4_address: 172.1.1.103
   - name: run my_haproxy container
     docker_container:
      name: my_haproxy_con
      image: my_haproxy
      state: started
-  - name: run hello container
-    docker_container:
-     name: hello
-     image: hello-world
-     state: started
-
+     networks: 
+      - name: Network-1
+        ipv4_address: 172.1.1.104
