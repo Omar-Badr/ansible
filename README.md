@@ -22,5 +22,5 @@ node rest api 1 IP= 172.1.1.102
 node rest api 2 name= my_node_rest_api_con_2
 node rest api 2 IP= 172.1.1.103
 haproxy name= my_haproxy_con
-haproxy IP= 172.1.1.105
+haproxy IP= 172.1.1.104
 
