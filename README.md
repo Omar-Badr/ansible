@@ -1,4 +1,12 @@
-# ansible
+# Using ansible to automate the creation of a multi-container Web-app.
+
+- Initialize an ubuntu VM using `Vagrant`
+- Provision the VM using `Ansible` to create the following environment:
+- create `nginx` web server `Docker` container
+- create `MySQL` database `Docker` container
+- deploy 2 instances of the following project: `https://github.com/ealeksandrov/NodeAPI` inside a `Docker` container
+- create an `haproxy` docker container to load balance the 2 instances created above
+- The deployment should allow a request to pass through: `nginx` -> `haproxy` -> `node`
 
 #Enviroment
 OS= Ubuntu 14.04.5 LTS (GNU/Linux 3.13.0-137-generic x86_64) 
